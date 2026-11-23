@@ -1,0 +1,6 @@
+Dependancies:
+
+1. Python 3
+2. VScode
+3. numpy
+4. matplotlib
