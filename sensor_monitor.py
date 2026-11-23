@@ -150,3 +150,41 @@ def load_readings(filename):
         print("Fout: het CSV-bestand bevat geen geldige metingen.")
         return None
     return numpy.array(readings)
+
+
+def main():
+    """Hoofdprogramma dat de keuzes en stappen samenbrengt."""
+    print("=== Sensor Data Analyse Tool ===")
+    print("1. Nieuwe sensor metingen genereren")
+    print("2. Bestaande metingen inladen uit CSV")
+
+    while True:
+        choice = input("Maak een keuze (1 of 2): ").strip()
+        if choice in ("1", "2"):
+            break
+        print("Fout: kies 1 of 2.")
+
+    if choice == "1":
+        sensor_type, count, min_val, max_val, threshold = get_user_input()
+        readings = generate_readings(count, min_val, max_val)
+        filename = input("Bestandsnaam voor opslaan (enter = sensor_data.csv): ").strip()
+        if not filename:
+            filename = "sensor_data.csv"
+        save_readings(readings, filename)
+    else:
+        filename = input("Naam van het CSV-bestand: ").strip()
+        readings = load_readings(filename)
+        if readings is None:
+            return
+        sensor_type = input("Sensortype voor de grafieken: ").strip() or "sensor"
+        threshold = ask_float("Waarschuwingsdrempel (alert threshold): ")
+
+    stats = calculate_statistics(readings, threshold)
+    show_statistics(sensor_type, stats, threshold)
+    find_outliers(readings, threshold)
+    plot_readings(readings, sensor_type, threshold)
+    plot_histogram(readings, sensor_type)
+
+
+if __name__ == "__main__":
+    main()
