@@ -117,3 +117,36 @@ def plot_histogram(readings, sensor_type):
     matplotlib.pyplot.ylabel("Frequentie")
     matplotlib.pyplot.grid(True)
     matplotlib.pyplot.show()
+
+
+def save_readings(readings, filename="sensor_data.csv"):
+    """Slaat de metingen op in een CSV-bestand"""
+    try:
+        with open(filename, mode="w", newline="", encoding="utf-8") as file:
+            writer = csv.writer(file)
+            writer.writerow(["sample_nr", "reading"])
+            for sample_nr, value in enumerate(readings, start=1):
+                writer.writerow([sample_nr, float(value)])
+        print(f"Metingen succesvol opgeslagen in '{filename}'.")
+    except OSError as error:
+        print(f"Fout bij opslaan van '{filename}': {error}")
+
+
+def load_readings(filename):
+    """Laadt bestaande sensor metingen uit een CSV-bestand."""
+    readings = []
+    try:
+        with open(filename, mode="r", newline="", encoding="utf-8") as file:
+            reader = csv.reader(file)
+            next(reader, None)
+            for row in reader:
+                if len(row) >= 2:
+                    readings.append(float(row[1]))
+    except (OSError, ValueError) as error:
+        print(f"Fout bij inladen van '{filename}': {error}")
+        return None
+
+    if not readings:
+        print("Fout: het CSV-bestand bevat geen geldige metingen.")
+        return None
+    return numpy.array(readings)
