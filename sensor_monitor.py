@@ -90,3 +90,30 @@ def find_outliers(readings, threshold):
     else:
         print("\nGeen metingen boven de drempelwaarde gevonden.")
     return outliers
+
+
+def plot_readings(readings, sensor_type, threshold):
+    """Maakt een lijngrafiek van de metingen met de drempelwaarde."""
+    samples = range(1, len(readings) + 1)
+    matplotlib.pyplot.figure()
+    matplotlib.pyplot.plot(samples, readings, marker="o", label="Metingen")
+    matplotlib.pyplot.axhline(
+        y=threshold, color="red", linestyle="--", label=f"Drempel ({threshold})"
+    )
+    matplotlib.pyplot.title(f"Sensor metingen: {sensor_type}")
+    matplotlib.pyplot.xlabel("Sample-nummer")
+    matplotlib.pyplot.ylabel("Waarde")
+    matplotlib.pyplot.grid(True)
+    matplotlib.pyplot.legend()
+    matplotlib.pyplot.show()
+
+
+def plot_histogram(readings, sensor_type):
+    """Maakt een histogram van de verdeling van de metingen."""
+    matplotlib.pyplot.figure()
+    matplotlib.pyplot.hist(readings, bins=10, edgecolor="black")
+    matplotlib.pyplot.title(f"Verdeling van metingen: {sensor_type}")
+    matplotlib.pyplot.xlabel("Sensorwaarde")
+    matplotlib.pyplot.ylabel("Frequentie")
+    matplotlib.pyplot.grid(True)
+    matplotlib.pyplot.show()
