@@ -80,8 +80,10 @@ def find_outliers(readings, threshold):
     """Laat alle metingen boven de drempelwaarde zien"""
     outliers = []
     for index, value in enumerate(readings, start=1):
+        """voegt sample nummer toe en de waarde"""
         if value > threshold:
             outliers.append((index, float(value)))
+            """voegt sample nummer en waarde toe aan outliers lijst"""
 
     if outliers:
         print("\nMetingen boven de drempelwaarde:")
@@ -95,17 +97,17 @@ def find_outliers(readings, threshold):
 def plot_readings(readings, sensor_type, threshold):
     """Maakt een lijngrafiek van de metingen met de drempelwaarde."""
     samples = range(1, len(readings) + 1)
-    matplotlib.pyplot.figure()
-    matplotlib.pyplot.plot(samples, readings, marker="o", label="Metingen")
-    matplotlib.pyplot.axhline(
+    matplotlib.pyplot.figure() #nieuw venster
+    matplotlib.pyplot.plot(samples, readings, marker="o", label="Metingen") #tekent de lijn met punten
+    matplotlib.pyplot.axhline( #rode horizontale drempelwaarde
         y=threshold, color="red", linestyle="--", label=f"Drempel ({threshold})"
     )
-    matplotlib.pyplot.title(f"Sensor metingen: {sensor_type}")
-    matplotlib.pyplot.xlabel("Sample-nummer")
-    matplotlib.pyplot.ylabel("Waarde")
-    matplotlib.pyplot.grid(True)
-    matplotlib.pyplot.legend()
-    matplotlib.pyplot.show()
+    matplotlib.pyplot.title(f"Sensor metingen: {sensor_type}") #titel
+    matplotlib.pyplot.xlabel("Sample-nummer") #horizontale as naam
+    matplotlib.pyplot.ylabel("Waarde") #verticale as naam
+    matplotlib.pyplot.grid(True) #rasterlijnen
+    matplotlib.pyplot.legend() #legenda
+    matplotlib.pyplot.show() #toon de grafiek
 
 
 def plot_histogram(readings, sensor_type):
